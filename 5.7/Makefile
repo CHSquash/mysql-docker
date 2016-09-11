@@ -3,6 +3,9 @@ current_dir = $(shell pwd)
 build:
 	docker build -f Dockerfile -t my_sql .
 
+build-phpadmin:
+	docker pull phpmyadmin/phpmyadmin
+
 start-sql:
 	docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw \
 	-v $(current_dir)/database:/var/lib/mysql --name mysql my_sql
