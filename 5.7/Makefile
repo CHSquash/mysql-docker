@@ -14,8 +14,10 @@ start-phpadmin:
 	docker run --name myadmin -d --link mysql -p 8080:80 -e PMA_HOST=mysql phpmyadmin/phpmyadmin
 
 clean:
-	docker rm -f $$(docker ps -qa)
-	docker rmi -f $$(docker images -qa)
+	docker rm $$(docker ps -q -f status=exited) || echo "true"
+	docker rmi $$(docker images -q --filter "dangling=true") || echo "true"
+	docker volume rm $$(docker volume ls -qf dangling=true) || echo 'true'
+
 
 # create database my_resume;
 # use my_resume;
